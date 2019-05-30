@@ -144,7 +144,8 @@ SRFC.setOnClickListener(new TextView.OnClickListener() {
 
                     JSONObject jsonResponse = new JSONObject(response);
                     String success = jsonResponse.getString("success");
-
+                    String nombre = jsonResponse.getString("nombre");
+                    String situacion = jsonResponse.getString("situacion");
                     if(success.equals("true")){
 
 
@@ -152,6 +153,8 @@ SRFC.setOnClickListener(new TextView.OnClickListener() {
                         Intent intent = new Intent(MainActivity.this, RFCMalo.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("rfc",RFC.getText().toString() );
+                        intent.putExtra("nombre", nombre );
+                        intent.putExtra("situacion",situacion );
                         intent.putExtra("consu",solicita.getText().toString() );
                         startActivity(intent);
 

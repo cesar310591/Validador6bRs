@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RFCMalo extends AppCompatActivity {
-TextView rfcet, consulto;
+TextView rfcet, consulto, mal;
 Button regresam,  pdf;
     private  Templatepdf templatepdf;
     @Override
@@ -23,14 +23,19 @@ Button regresam,  pdf;
         consulto = findViewById(R.id.tvConsultam);
 regresam = findViewById(R.id.btnRegresaM);
         rfcet = findViewById(R.id.etMalo);
+        mal = findViewById(R.id.tvMalo);
         pdf = findViewById(R.id.btnImprimir);
-        String rfc, consul;
+        String rfc, consul, nombre, situacion, tex;
+
         rfc = getIntent().getStringExtra("rfc");
-        consul =  getIntent().getStringExtra("consu");
+        nombre = getIntent().getStringExtra("nombre");
+        situacion = getIntent().getStringExtra("situacion");
+        tex = "Se encuentra relacionado en la información actualizada al 09 de mayo con el nombre de contribuyente: " + nombre + " Y la situacion: " + situacion;
+        consul = "Esta validación fue realizada por: " + getIntent().getStringExtra("consu");
 
         rfcet.setText(rfc);
         consulto.setText(consul );
-
+        mal.setText(tex);
   rfcet.setText(rfc );
 
   regresam.setOnClickListener(new TextView.OnClickListener() {

@@ -26,7 +26,7 @@ regresa = findViewById(R.id.btnRegresar);
         String rfc, consul;
 
         rfc = getIntent().getStringExtra("rfc");
-        consul =   getIntent().getStringExtra("consu");
+        consul ="Esta validación fue realizada por: " +  getIntent().getStringExtra("consu");
         rfcet.setText(rfc);
         consulto.setText(consul );
         regresa.setOnClickListener(new TextView.OnClickListener() {
