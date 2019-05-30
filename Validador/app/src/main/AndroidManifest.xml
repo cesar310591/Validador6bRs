@@ -18,14 +18,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".viewpdf"></activity>
-        <activity android:name=".qrscannEmi" />
-        <activity android:name=".QRScann" />
-        <activity android:name=".RFCbueno" />
-        <activity android:name=".RFCMalo" />
-        <activity android:name=".Registro" />
-        <activity android:name=".Login" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.rsvalidador.validador.viewpdf"></activity>
+        <activity android:name="com.rsvalidador.validador.qrscannEmi" />
+        <activity android:name="com.rsvalidador.validador.QRScann" />
+        <activity android:name="com.rsvalidador.validador.RFCbueno" />
+        <activity android:name="com.rsvalidador.validador.RFCMalo" />
+        <activity android:name="com.rsvalidador.validador.Registro" />
+        <activity android:name="com.rsvalidador.validador.Login" />
+        <activity android:name="com.rsvalidador.validador.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
