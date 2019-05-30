@@ -113,7 +113,7 @@ public void addTitlesrfcbueno(String title, String subtitle, String date){
             addChild(new Paragraph(subtitle, frfcmaloText));
             addChild(new Paragraph(date, fsubTitle));
 
-            paragraph.setSpacingAfter(30);
+            paragraph.setSpacingAfter(28);
             document.add(paragraph);
         }
         catch (Exception e){
@@ -126,7 +126,7 @@ public  void addParagraph(String text){
     try{
         paragraph = new Paragraph(text, fsolText);
         //paragraph.setSpacingAfter(5000);
-        paragraph.setSpacingBefore(500);
+        paragraph.setSpacingBefore(460);
        // paragraph.setAbsolutePosition(200f, 0f);
         document.add(paragraph);
     }

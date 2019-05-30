@@ -16,17 +16,18 @@ import java.util.Date;
 public class RFCMalo extends AppCompatActivity {
 TextView rfcet, consulto, mal;
 Button regresam,  pdf;
+    String rfc, consul, nombre, situacion, tex;
     private  Templatepdf templatepdf;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rfcmalo);
         consulto = findViewById(R.id.tvConsultam);
-regresam = findViewById(R.id.btnRegresaM);
+        regresam = findViewById(R.id.btnRegresaM);
         rfcet = findViewById(R.id.etMalo);
         mal = findViewById(R.id.tvMalo);
         pdf = findViewById(R.id.btnImprimir);
-        String rfc, consul, nombre, situacion, tex;
+
 
         rfc = getIntent().getStringExtra("rfc");
         nombre = getIntent().getStringExtra("nombre");
@@ -37,7 +38,7 @@ regresam = findViewById(R.id.btnRegresaM);
         rfcet.setText(rfc);
         consulto.setText(consul );
         mal.setText(tex);
-  rfcet.setText(rfc );
+        rfcet.setText(rfc );
 
   regresam.setOnClickListener(new TextView.OnClickListener() {
 
@@ -56,7 +57,7 @@ regresam = findViewById(R.id.btnRegresaM);
                 templatepdf = new Templatepdf(getApplicationContext());
                 templatepdf.Opendocument(getIntent().getStringExtra("rfc"));
                 templatepdf.addData(getIntent().getStringExtra("rfc"), "Validacion de rfc", "Laudem S de RL de CV");
-                templatepdf.addTitlesrfcmalo("Consultando la relación de contribuyentes con operaciones presuntamente inexistentes el rfc:", getIntent().getStringExtra("rfc"), "Se encuentra con irregularidades y cualquier interaccion podria tener consecuencias con las autoridades");
+                templatepdf.addTitlesrfcmalo("Consultando la relación de contribuyentes con operaciones presuntamente inexistentes el rfc:", getIntent().getStringExtra("rfc"), tex);
                 templatepdf.addParagraph("Validacion solicitada por: " + consulto.getText() + " El dia " + date ) ;
                 templatepdf.addImgNameRS();
              //   templatepdf.addImgNamelv();
