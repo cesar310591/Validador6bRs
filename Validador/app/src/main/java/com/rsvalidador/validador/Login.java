@@ -53,11 +53,7 @@ try{
 
     if(success.equals("true")){
 
-
-        Intent intent = new Intent(Login.this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("ini","si" );
-        startActivity(intent);
+        buscaestado();
 
     }else{
 
@@ -99,4 +95,60 @@ try{
 
 
     }
+
+    public void buscaestado(){
+
+        final String usuario = etusuario.getText().toString();
+
+
+        Response.Listener<String>  response =new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+
+                    JSONObject jsonResponse = new JSONObject(response);
+                    String success = jsonResponse.getString("success");
+                    String est = jsonResponse.getString("estado");
+                    if(success.equals("true")){
+
+                        if(est.equals("Normal")) {
+                            Intent intent = new Intent(Login.this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("ini", "si");
+                            intent.putExtra("usuario", etusuario.getText().toString());
+                            startActivity(intent);
+                        }else{
+
+                            Toast toast1 =
+                                    Toast.makeText(getApplicationContext(),
+                                            "El usuario se encuentra bloqueado por pago pendiente", Toast.LENGTH_SHORT);
+
+                            toast1.show();
+
+                        }
+                    }else{
+
+                        Toast toast1 =
+                                Toast.makeText(getApplicationContext(),
+                                        "Usuario no encontrado", Toast.LENGTH_SHORT);
+
+                        toast1.show();
+                    }
+                }
+
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
+        };
+
+        wsEstado wsestado = new wsEstado(usuario, response);
+        RequestQueue queue = Volley.newRequestQueue(Login.this);
+        queue.add(wsestado);
+
+    }
+
 }

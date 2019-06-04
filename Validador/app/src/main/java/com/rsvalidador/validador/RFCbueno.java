@@ -65,6 +65,7 @@ regresa = findViewById(R.id.btnRegresar);
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("ini","si" );
+        intent.putExtra("usuario", getIntent().getStringExtra("usuario"));
         startActivity(intent);
 
 

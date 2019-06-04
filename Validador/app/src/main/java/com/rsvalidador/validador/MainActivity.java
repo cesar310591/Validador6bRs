@@ -40,7 +40,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 
 public class MainActivity extends AppCompatActivity {
-TextView ini;
+TextView ini, usu;
 public static EditText RFC, solicita;
 Button AYUDA;
 ImageButton QR, SRFC, QRE;
@@ -56,6 +56,7 @@ ImageButton QR, SRFC, QRE;
         QRE = findViewById(R.id.btnFacEmi);
         AYUDA = findViewById(R.id.btnAyuda);
         solicita = findViewById(R.id.etSolicitante);
+        usu = findViewById(R.id.tvUsuario);
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1000);
@@ -75,6 +76,9 @@ ImageButton QR, SRFC, QRE;
 
         if(ini.getText().equals("si")){
 
+            String us;
+            us = getIntent().getStringExtra("usuario");
+            usu.setText(us);
         }else {
             RegresaLogin();
 
@@ -145,11 +149,13 @@ SRFC.setOnClickListener(new TextView.OnClickListener() {
 
                     JSONObject jsonResponse = new JSONObject(response);
                     String success = jsonResponse.getString("success");
-
+                    String solicitantes =  solicita.getText().toString();
                     if(success.equals("true")){
 
                         String nombre = jsonResponse.getString("nombre");
                         String situacion = jsonResponse.getString("situacion");
+
+                         insertahistorial(usu.getText().toString(), RFC.getText().toString(), situacion, solicitantes);
 
                         Intent intent = new Intent(MainActivity.this, RFCMalo.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -157,15 +163,18 @@ SRFC.setOnClickListener(new TextView.OnClickListener() {
                         intent.putExtra("nombre", nombre );
                         intent.putExtra("situacion",situacion );
                         intent.putExtra("consu",solicita.getText().toString() );
+                        intent.putExtra("usuario", usu.getText().toString());
                         startActivity(intent);
 
 
                     }else{
+                        insertahistorial(usu.getText().toString(), RFC.getText().toString(), "Normal", solicitantes);
 
                         Intent intent = new Intent(MainActivity.this, RFCbueno.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("rfc",RFC.getText().toString() );
-                        intent.putExtra("consu",solicita.getText().toString() );
+                        intent.putExtra("consu",solicita.getText().toString());
+                        intent.putExtra("usuario", usu.getText().toString());
                         startActivity(intent);
 
                     }
@@ -266,6 +275,62 @@ AYUDA.setOnClickListener(new TextView.OnClickListener() {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+    }
+
+
+    public void  insertahistorial(String nombre, String rfc, String situacion, String Sol){
+
+             final String nom = nombre;
+             final String rfci = rfc;
+             final String situ = situacion;
+             final String solicitante = Sol;
+
+
+
+        Response.Listener<String>  response =new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+
+                    JSONObject jsonResponse = new JSONObject(response);
+                    String success = jsonResponse.getString("success");
+
+                    if(success.equals("true")){
+
+                        Toast toast1 =
+                                Toast.makeText(getApplicationContext(),
+                                        "Se registro la busqueda en la base de datos", Toast.LENGTH_SHORT);
+
+                        toast1.show();
+
+                    }else{
+
+                        Toast toast1 =
+                                Toast.makeText(getApplicationContext(),
+                                        "Error al crear el usuario", Toast.LENGTH_SHORT);
+
+                        toast1.show();
+                    }
+                }
+
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
+        };
+
+        wsInserta_historial wsregistro = new wsInserta_historial(nom, rfci, situ, Sol, response);
+        Toast toast1 =
+                Toast.makeText(getApplicationContext(),
+                        Sol, Toast.LENGTH_SHORT);
+
+        toast1.show();
+        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+        queue.add(wsregistro);
 
     }
 
