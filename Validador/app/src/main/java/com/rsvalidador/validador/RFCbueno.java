@@ -64,7 +64,15 @@ regresa = findViewById(R.id.btnRegresar);
 
                 */
 
-                Call<pdfResponse> call = MyApiAdapter.getApiService().createPDF(pdfBody);
+                Call<pdfResponse> call = MyApiAdapter.getApiService().createPDF(
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        1
+                );
                 call.enqueue(new Callback<pdfResponse>() {
 
                     @Override

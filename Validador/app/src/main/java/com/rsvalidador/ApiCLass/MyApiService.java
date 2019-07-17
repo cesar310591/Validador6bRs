@@ -11,9 +11,15 @@ import retrofit2.http.Query;
 
 public interface MyApiService {
 
-    @POST("Facturacion/Facturas")
+    @GET("Validador/Reporte")
     Call<pdfResponse> createPDF(
-            @Body pdfBody pdfBody
+            @Query("fecha") String fecha,
+            @Query("correo") String correo,
+            @Query("RFC") String rfc,
+            @Query("nombre") String nombre,
+            @Query("situacion") String situaciom,
+            @Query("usuario") String usuario,
+            @Query("tipo") Integer tipo
     );
 
 
