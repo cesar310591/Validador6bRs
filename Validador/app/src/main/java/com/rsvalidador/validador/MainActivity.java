@@ -140,7 +140,7 @@ SRFC.setOnClickListener(new TextView.OnClickListener() {
 
             return;
         }
-
+        SRFC.setEnabled(false);
 
         Response.Listener<String>  response =new Response.Listener<String>() {
             @Override
@@ -151,7 +151,7 @@ SRFC.setOnClickListener(new TextView.OnClickListener() {
                     String success = jsonResponse.getString("success");
                     String solicitantes =  solicita.getText().toString();
                     if(success.equals("true")){
-
+                        SRFC.setEnabled(true);
                         String nombre = jsonResponse.getString("nombre");
                         String situacion = jsonResponse.getString("situacion");
 

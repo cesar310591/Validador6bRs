@@ -49,7 +49,7 @@ regresa = findViewById(R.id.btnRegresar);
                 templatepdf.Opendocument(getIntent().getStringExtra("rfc"));
                 templatepdf.addData(getIntent().getStringExtra("rfc"), "Validacion de rfc", "Laudem S de RL de CV");
                 templatepdf.addTitlesrfcbueno("Consultando la relación de contribuyentes con operaciones presuntamente inexistentes el rfc:", getIntent().getStringExtra("rfc"), "No se encontrado en la relación actualizada al 16 de mayo de 2019");
-             templatepdf.addParagraph("Validacion solicitada por: " + consulto.getText() + " El dia " + date ) ;
+             templatepdf.addParagraph( consulto.getText() + " El dia " + date ) ;
              templatepdf.addImgNameRS();
                // templatepdf.addImgNamelv();
                 templatepdf.closedocument();

@@ -40,6 +40,8 @@ btninicio.setOnClickListener(new View.OnClickListener(){
 
     @Override
     public void onClick(View v) {
+
+     btninicio.setEnabled(false);
         final String nombre = etusuario.getText().toString();
         final String pass = etpass.getText().toString();
 
@@ -54,6 +56,7 @@ try{
     if(success.equals("true")){
 
         buscaestado();
+btninicio.setEnabled(true);
 
     }else{
 
