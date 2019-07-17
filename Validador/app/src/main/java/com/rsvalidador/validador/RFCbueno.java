@@ -9,9 +9,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.validador.R;
+import com.rsvalidador.ApiCLass.MyApiAdapter;
+import com.rsvalidador.Ob.pdfResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RFCbueno extends AppCompatActivity {
 TextView  rfcet, consulto;
@@ -45,7 +51,8 @@ regresa = findViewById(R.id.btnRegresar);
             public void onClick(View v) {
 
                 String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-                templatepdf = new Templatepdf(getApplicationContext());
+
+            /*    templatepdf = new Templatepdf(getApplicationContext());
                 templatepdf.Opendocument(getIntent().getStringExtra("rfc"));
                 templatepdf.addData(getIntent().getStringExtra("rfc"), "Validacion de rfc", "Laudem S de RL de CV");
                 templatepdf.addTitlesrfcbueno("Consultando la relación de contribuyentes con operaciones presuntamente inexistentes el rfc:", getIntent().getStringExtra("rfc"), "No se encontrado en la relación actualizada al 16 de mayo de 2019");
@@ -54,6 +61,23 @@ regresa = findViewById(R.id.btnRegresar);
                // templatepdf.addImgNamelv();
                 templatepdf.closedocument();
                 templatepdf.viewpdf();
+
+                */
+
+                Call<pdfResponse> call = MyApiAdapter.getApiService().createPDF(pdfBody);
+                call.enqueue(new Callback<pdfResponse>() {
+
+                    @Override
+                    public void onResponse(Call<pdfResponse> call, Response<pdfResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<pdfResponse> call, Throwable t) {
+
+                    }
+                });
+
             }
         });
 
