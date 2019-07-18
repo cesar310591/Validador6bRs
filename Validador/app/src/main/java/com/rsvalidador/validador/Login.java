@@ -52,10 +52,13 @@ try{
 
     JSONObject jsonResponse = new JSONObject(response);
     String success = jsonResponse.getString("success");
+    String correo = jsonResponse.getString("correo");
+
+
 
     if(success.equals("true")){
 
-        buscaestado();
+        buscaestado(correo);
 btninicio.setEnabled(true);
 
     }else{
@@ -99,7 +102,7 @@ btninicio.setEnabled(true);
 
     }
 
-    public void buscaestado(){
+    public void buscaestado(final String correo){
 
         final String usuario = etusuario.getText().toString();
 
@@ -112,6 +115,8 @@ btninicio.setEnabled(true);
                     JSONObject jsonResponse = new JSONObject(response);
                     String success = jsonResponse.getString("success");
                     String est = jsonResponse.getString("estado");
+                    String corr = correo;
+
                     if(success.equals("true")){
 
                         if(est.equals("Normal")) {
@@ -119,23 +124,24 @@ btninicio.setEnabled(true);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.putExtra("ini", "si");
                             intent.putExtra("usuario", etusuario.getText().toString());
+                            intent.putExtra("correo", corr);
                             startActivity(intent);
                         }else{
 
-                            Toast toast1 =
+                            Toast toast2 =
                                     Toast.makeText(getApplicationContext(),
                                             "El usuario se encuentra bloqueado por pago pendiente", Toast.LENGTH_SHORT);
 
-                            toast1.show();
+                            toast2.show();
 
                         }
                     }else{
 
-                        Toast toast1 =
+                        Toast toast2 =
                                 Toast.makeText(getApplicationContext(),
                                         "Usuario no encontrado", Toast.LENGTH_SHORT);
 
-                        toast1.show();
+                        toast2.show();
                     }
                 }
 

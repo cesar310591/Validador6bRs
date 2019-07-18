@@ -44,7 +44,7 @@ TextView ini, usu;
 public static EditText RFC, solicita;
 Button AYUDA;
 ImageButton QR, SRFC, QRE;
-
+String corre;
 @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +73,9 @@ ImageButton QR, SRFC, QRE;
         String in;
         in = getIntent().getStringExtra("ini");
         ini.setText(in);
+
+        corre =  getIntent().getStringExtra("correo");
+
 
         if(ini.getText().equals("si")){
 
@@ -164,6 +167,7 @@ SRFC.setOnClickListener(new TextView.OnClickListener() {
                         intent.putExtra("situacion",situacion );
                         intent.putExtra("consu",solicita.getText().toString() );
                         intent.putExtra("usuario", usu.getText().toString());
+                        intent.putExtra("correo", corre);
                         startActivity(intent);
 
 
@@ -175,6 +179,7 @@ SRFC.setOnClickListener(new TextView.OnClickListener() {
                         intent.putExtra("rfc",RFC.getText().toString() );
                         intent.putExtra("consu",solicita.getText().toString());
                         intent.putExtra("usuario", usu.getText().toString());
+                        intent.putExtra("correo", corre);
                         startActivity(intent);
 
                     }

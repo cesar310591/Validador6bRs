@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.validador.R;
 import com.rsvalidador.ApiCLass.MyApiAdapter;
@@ -64,13 +65,14 @@ regresa = findViewById(R.id.btnRegresar);
 
                 */
 
+
                 Call<pdfResponse> call = MyApiAdapter.getApiService().createPDF(
+                        date,
+                        getIntent().getStringExtra("correo"),
+                        rfcet.getText().toString(),
                         "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        "",
+                        "Normal",
+                        getIntent().getStringExtra("consu") ,
                         1
                 );
                 call.enqueue(new Callback<pdfResponse>() {
@@ -98,6 +100,7 @@ regresa = findViewById(R.id.btnRegresar);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("ini","si" );
         intent.putExtra("usuario", getIntent().getStringExtra("usuario"));
+        intent.putExtra("correo", getIntent().getStringExtra("correo"));
         startActivity(intent);
 
 

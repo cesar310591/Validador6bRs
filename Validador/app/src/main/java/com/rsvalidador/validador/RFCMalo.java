@@ -9,9 +9,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.validador.R;
+import com.rsvalidador.ApiCLass.MyApiAdapter;
+import com.rsvalidador.Ob.pdfResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RFCMalo extends AppCompatActivity {
 TextView rfcet, consulto, mal;
@@ -54,7 +60,7 @@ Button regresam,  pdf;
             public void onClick(View v) {
 
                 String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-                templatepdf = new Templatepdf(getApplicationContext());
+              /*  templatepdf = new Templatepdf(getApplicationContext());
                 templatepdf.Opendocument(getIntent().getStringExtra("rfc"));
                 templatepdf.addData(getIntent().getStringExtra("rfc"), "Validacion de rfc", "Laudem S de RL de CV");
                 templatepdf.addTitlesrfcmalo("Consultando la relación de contribuyentes con operaciones presuntamente inexistentes el rfc:", getIntent().getStringExtra("rfc"), tex);
@@ -63,6 +69,30 @@ Button regresam,  pdf;
              //   templatepdf.addImgNamelv();
                 templatepdf.closedocument();
                 templatepdf.viewpdf();
+
+                */
+                Call<pdfResponse> call = MyApiAdapter.getApiService().createPDF(
+                        date,
+                        getIntent().getStringExtra("correo"),
+                        rfc,
+                        nombre,
+                        situacion,
+                        getIntent().getStringExtra("consu") ,
+                        2
+                );
+                call.enqueue(new Callback<pdfResponse>() {
+
+                    @Override
+                    public void onResponse(Call<pdfResponse> call, Response<pdfResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<pdfResponse> call, Throwable t) {
+
+                    }
+                });
+
             }
         });
 
@@ -77,6 +107,7 @@ Button regresam,  pdf;
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("ini","si" );
         intent.putExtra("usuario", getIntent().getStringExtra("usuario"));
+        intent.putExtra("correo", getIntent().getStringExtra("correo"));
         startActivity(intent);
 
 
