@@ -41,6 +41,35 @@ btninicio.setOnClickListener(new View.OnClickListener(){
     @Override
     public void onClick(View v) {
 
+        if(etusuario.getText().toString().trim().length() == 0){
+            Toast toast1 =
+                    Toast.makeText(getApplicationContext(),
+                            "EL campo Usuario no puede permanecer vacio", Toast.LENGTH_SHORT);
+
+            toast1.show();
+
+            return;
+        }
+
+
+        if(etpass.getText().toString().trim().length() == 0){
+            Toast toast1 =
+                    Toast.makeText(getApplicationContext(),
+                            "EL campo contraseña no puede permanecer vacio", Toast.LENGTH_SHORT);
+
+            toast1.show();
+
+            return;
+        }
+
+
+        Toast toast1 =
+                Toast.makeText(getApplicationContext(),
+                        "Iniciando sesion espere un momento por favor, Esta accion puede tardar unos segundos", Toast.LENGTH_SHORT);
+
+        toast1.show();
+
+
      btninicio.setEnabled(false);
         final String nombre = etusuario.getText().toString();
         final String pass = etpass.getText().toString();
@@ -72,6 +101,7 @@ btninicio.setEnabled(true);
 }
 
  catch (JSONException e) {
+     btninicio.setEnabled(true);
     e.printStackTrace();
 }
 
@@ -79,10 +109,12 @@ btninicio.setEnabled(true);
 
 
         };
-
+        btninicio.setEnabled(true);
         wsLogin wslogin = new wsLogin(nombre, pass, response);
         RequestQueue queue = Volley.newRequestQueue(Login.this);
         queue.add(wslogin);
+
+
     }
 });
 
