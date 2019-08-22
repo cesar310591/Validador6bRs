@@ -3,10 +3,13 @@ package com.rsvalidador.validador;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+
+import static android.util.Log.println;
 
 public class qrscannEmi extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
@@ -23,7 +26,9 @@ public class qrscannEmi extends AppCompatActivity implements ZXingScannerView.Re
 
         String cadena = result.getText();
         String RFCE = "";
+        String uuid = "", rfc_e = "", rfc_r = "", total = "" ,palabratam3;
 
+// saca el rfc que se busca en el listado
         for (int x=0;x<cadena.length();x++){
             if(cadena.charAt(x) == '&'){
                 if(cadena.charAt(x+1) == 'r'){
@@ -44,10 +49,51 @@ public class qrscannEmi extends AppCompatActivity implements ZXingScannerView.Re
             }
         }
 
+//sacamos los demas datos para validar la factura
 
 
+
+        String[] palabras = cadena.split("&");
+
+        for (String palabra : palabras)
+        {
+           //vemos que cadena es y dependiendo de que sea lo guardamos en la variable correspondiente
+            palabratam3 = palabra.substring(0,2);
+
+            //los casos de las cadenas
+           if (palabratam3.equals("id")){
+
+               uuid = palabra.substring(3, palabra.length());
+
+           }
+
+            if (palabratam3.equals("re")){
+
+                rfc_e = palabra.substring(3, palabra.length());
+
+            }
+
+            if (palabratam3.equals("rr")){
+
+                rfc_r = palabra.substring(3, palabra.length());
+
+            }
+
+            if (palabratam3.equals("tt")){
+
+                total = palabra.substring(3, palabra.length());
+
+            }
+
+
+
+        }
 
         MainActivity.RFC.setText(RFCE);
+        MainActivity.rfc_em.setText(rfc_e);
+        MainActivity.rfc_rr.setText(rfc_r);
+        MainActivity.uuid.setText(uuid);
+        MainActivity.total.setText(total);
         onBackPressed();
     }
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.validador.R;
 import com.rsvalidador.ApiCLass.MyApiAdapter;
@@ -38,7 +39,7 @@ Button regresam,  pdf;
         rfc = getIntent().getStringExtra("rfc");
         nombre = getIntent().getStringExtra("nombre");
         situacion = getIntent().getStringExtra("situacion");
-        tex = "Se encuentra relacionado en la información actualizada al 09 de mayo con el nombre de contribuyente: " + nombre + " Y la situacion: " + situacion;
+        tex = "Se ha encontrado en la relación de las personas físicas y morales que se ubican en el supuesto del artículo 69-B del Código Fiscal de la Federación con el nombre de la empresa: " + nombre + " Y la situacion: " + situacion +".";
         consul = "Esta validación fue realizada por: " + getIntent().getStringExtra("consu");
 
         rfcet.setText(rfc);
@@ -59,6 +60,14 @@ Button regresam,  pdf;
             @Override
             public void onClick(View v) {
 
+                Toast toast1 =
+                        Toast.makeText(getApplicationContext(),
+                                "El resultado de la validación se enviara al correo electronico registrado con el usuario este proceso puede tardar unos minutos.", Toast.LENGTH_SHORT);
+
+                toast1.show();
+
+
+
                 String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
               /*  templatepdf = new Templatepdf(getApplicationContext());
                 templatepdf.Opendocument(getIntent().getStringExtra("rfc"));
@@ -78,7 +87,11 @@ Button regresam,  pdf;
                         nombre,
                         situacion,
                         getIntent().getStringExtra("consu") ,
-                        2
+                        2,
+                        getIntent().getStringExtra("rfc_e") ,
+                        getIntent().getStringExtra("rfc_r") ,
+                        getIntent().getStringExtra("uuid") ,
+                        getIntent().getStringExtra("total")
                 );
                 call.enqueue(new Callback<pdfResponse>() {
 

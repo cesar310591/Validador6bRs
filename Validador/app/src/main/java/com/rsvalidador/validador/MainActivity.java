@@ -6,13 +6,16 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,8 +44,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class MainActivity extends AppCompatActivity {
 TextView ini, usu;
+public static TextView  rfc_em, rfc_rr, uuid, total;
 public static EditText RFC, solicita;
-Button AYUDA;
+ImageView Salir;
 ImageButton QR, SRFC, QRE;
 String corre;
 @Override
@@ -54,9 +58,15 @@ String corre;
         QR = findViewById(R.id.btnQR);
         SRFC = findViewById(R.id.btnBuscarRFC);
         QRE = findViewById(R.id.btnFacEmi);
-        AYUDA = findViewById(R.id.btnAyuda);
+        Salir = findViewById(R.id.imSalir);
         solicita = findViewById(R.id.etSolicitante);
         usu = findViewById(R.id.tvUsuario);
+        rfc_em = findViewById(R.id.rfc_e);
+        rfc_rr = findViewById(R.id.rfc_r);
+        uuid = findViewById(R.id.uuid);
+        total = findViewById(R.id.total);
+
+
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1000);
@@ -76,6 +86,13 @@ String corre;
 
         corre =  getIntent().getStringExtra("correo");
 
+    SharedPreferences myPreferences
+            = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+
+    String usercache = myPreferences.getString("usuario", "unknown");
+    String correocache = myPreferences.getString("correo", "unknown");
+    String inicache = myPreferences.getString("ini", "unknown");
+
 
         if(ini.getText().equals("si")){
 
@@ -83,17 +100,21 @@ String corre;
             us = getIntent().getStringExtra("usuario");
             usu.setText(us);
         }else {
-            RegresaLogin();
 
+            if(inicache.equals("si")){
+
+                usu.setText(usercache);
+                corre = correocache;
+            }
+            else {
+                RegresaLogin();
+            }
         }
 
 
 
 
         //botones
-
-
-
 
 
 SRFC.setOnClickListener(new TextView.OnClickListener() {
@@ -159,7 +180,7 @@ SRFC.setOnClickListener(new TextView.OnClickListener() {
                         String situacion = jsonResponse.getString("situacion");
 
                          insertahistorial(usu.getText().toString(), RFC.getText().toString(), situacion, solicitantes);
-
+                        insertafacturavalidada(usu.getText().toString(),rfc_em.getText().toString(),rfc_rr.getText().toString(),uuid.getText().toString(),total.getText().toString());
                         Intent intent = new Intent(MainActivity.this, RFCMalo.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("rfc",RFC.getText().toString() );
@@ -168,18 +189,30 @@ SRFC.setOnClickListener(new TextView.OnClickListener() {
                         intent.putExtra("consu",solicita.getText().toString() );
                         intent.putExtra("usuario", usu.getText().toString());
                         intent.putExtra("correo", corre);
+                       //pasamos los datos del xml
+                        intent.putExtra("rfc_e",rfc_em.getText().toString());
+                        intent.putExtra("rfc_r",rfc_rr.getText().toString() );
+                        intent.putExtra("uuid",uuid.getText().toString());
+                        intent.putExtra("total", total.getText().toString());
+
                         startActivity(intent);
 
 
                     }else{
                         insertahistorial(usu.getText().toString(), RFC.getText().toString(), "Normal", solicitantes);
-
+                        insertafacturavalidada(usu.getText().toString(),rfc_em.getText().toString(),rfc_rr.getText().toString(),uuid.getText().toString(),total.getText().toString());
                         Intent intent = new Intent(MainActivity.this, RFCbueno.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("rfc",RFC.getText().toString() );
                         intent.putExtra("consu",solicita.getText().toString());
                         intent.putExtra("usuario", usu.getText().toString());
                         intent.putExtra("correo", corre);
+                        //pasamos los datos del xml
+                        intent.putExtra("rfc_e",rfc_em.getText().toString());
+                        intent.putExtra("rfc_r",rfc_rr.getText().toString() );
+                        intent.putExtra("uuid",uuid.getText().toString());
+                        intent.putExtra("total", total.getText().toString());
+
                         startActivity(intent);
 
                     }
@@ -221,12 +254,16 @@ QRE.setOnClickListener(new TextView.OnClickListener() {
     }
 });
 
-AYUDA.setOnClickListener(new TextView.OnClickListener() {
+Salir.setOnClickListener(new TextView.OnClickListener() {
     @Override
     public void onClick(View v) {
-        Uri uri = Uri.parse("http://ramirezsoto.com.mx/");
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        startActivity(intent);
+        SharedPreferences myPreferences
+                = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        SharedPreferences.Editor myEditor = myPreferences.edit();
+
+        myEditor.clear();
+        myEditor.commit();
+        RegresaLogin();
     }
 });
 
@@ -329,13 +366,60 @@ AYUDA.setOnClickListener(new TextView.OnClickListener() {
         };
 
         wsInserta_historial wsregistro = new wsInserta_historial(nom, rfci, situ, Sol, response);
-        Toast toast1 =
-                Toast.makeText(getApplicationContext(),
-                        Sol, Toast.LENGTH_SHORT);
 
-        toast1.show();
         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
         queue.add(wsregistro);
+
+    }
+
+    public void insertafacturavalidada(String usuario, String rfce, String rfcr, String uuid, String total){
+
+        final String usuario1 = usuario;
+        final String rfce1 = rfce;
+        final String rfcr1 = rfcr;
+        final String uuid1 = uuid;
+        final String total1 = total;
+
+
+        Response.Listener<String>  response =new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+
+                    JSONObject jsonResponse = new JSONObject(response);
+                    String success = jsonResponse.getString("success");
+
+                    if(success.equals("true")){
+
+                        Toast toast1 =
+                                Toast.makeText(getApplicationContext(),
+                                        "Se registro la validacion", Toast.LENGTH_SHORT);
+
+                        toast1.show();
+
+                    }else{
+
+                        Toast toast1 =
+                                Toast.makeText(getApplicationContext(),
+                                        "Error al crear el usuario", Toast.LENGTH_SHORT);
+
+                        toast1.show();
+                    }
+                }
+
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
+        };
+
+    wsRegistraFactura wsregistraFactura = new wsRegistraFactura(usuario1, rfce1, rfcr1, uuid1,total1, response);
+
+        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+        queue.add(wsregistraFactura);
 
     }
 

@@ -50,6 +50,12 @@ regresa = findViewById(R.id.btnRegresar);
 
             @Override
             public void onClick(View v) {
+                Toast toast1 =
+                        Toast.makeText(getApplicationContext(),
+                                "El resultado de la validación se enviara al correo electronico registrado con el usuario este proceso puede tardar unos minutos.", Toast.LENGTH_SHORT);
+
+                toast1.show();
+
 
                 String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
@@ -73,7 +79,11 @@ regresa = findViewById(R.id.btnRegresar);
                         "",
                         "Normal",
                         getIntent().getStringExtra("consu") ,
-                        1
+                        1,
+                        getIntent().getStringExtra("rfc_e") ,
+                        getIntent().getStringExtra("rfc_r") ,
+                        getIntent().getStringExtra("uuid") ,
+                        getIntent().getStringExtra("total")
                 );
                 call.enqueue(new Callback<pdfResponse>() {
 

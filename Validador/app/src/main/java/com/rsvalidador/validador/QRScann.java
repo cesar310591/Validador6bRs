@@ -24,6 +24,7 @@ public class QRScann extends AppCompatActivity implements ZXingScannerView.Resul
         String cadena = result.getText();
 String RFCE = "";
         String RFCR;
+        String uuid = "", rfc_e = "", rfc_r = "", total = "" ,palabratam3;
         for (int x=0;x<cadena.length();x++){
            if(cadena.charAt(x) == '&'){
                if(cadena.charAt(x+1) == 'r'){
@@ -46,8 +47,51 @@ String RFCE = "";
 
 
 
+//sacamos los demas datos para validar la factura
 
-MainActivity.RFC.setText(RFCE);
+
+
+        String[] palabras = cadena.split("&");
+
+        for (String palabra : palabras)
+        {
+            //vemos que cadena es y dependiendo de que sea lo guardamos en la variable correspondiente
+            palabratam3 = palabra.substring(0,2);
+
+            //los casos de las cadenas
+            if (palabratam3.equals("id")){
+
+                uuid = palabra.substring(3, palabra.length());
+
+            }
+
+            if (palabratam3.equals("re")){
+
+                rfc_e = palabra.substring(3, palabra.length());
+
+            }
+
+            if (palabratam3.equals("rr")){
+
+                rfc_r = palabra.substring(3, palabra.length());
+
+            }
+
+            if (palabratam3.equals("tt")){
+
+                total = palabra.substring(3, palabra.length());
+
+            }
+
+
+
+        }
+
+        MainActivity.RFC.setText(RFCE);
+        MainActivity.rfc_em.setText(rfc_e);
+        MainActivity.rfc_rr.setText(rfc_r);
+        MainActivity.uuid.setText(uuid);
+        MainActivity.total.setText(total);
 onBackPressed();
     }
 

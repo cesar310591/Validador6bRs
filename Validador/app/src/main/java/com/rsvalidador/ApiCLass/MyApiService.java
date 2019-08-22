@@ -19,7 +19,11 @@ public interface MyApiService {
             @Query("nombre") String nombre,
             @Query("situacion") String situaciom,
             @Query("usuario") String usuario,
-            @Query("tipo") Integer tipo
+            @Query("tipo") Integer tipo,
+            @Query("rfcE") String rfcE,
+            @Query("rfcR") String rfcR,
+            @Query("UUID") String UUID,
+            @Query("total") String total
     );
 
 

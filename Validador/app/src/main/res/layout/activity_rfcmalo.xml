@@ -38,7 +38,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                android:gravity="center"
+                android:gravity="center|left"
                 android:text="Consultando la relación de contribuyentes con operaciones presuntamente inexistentes el rfc:" />
 
             <ImageView
@@ -86,8 +86,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                android:gravity="center"
-                android:text="Se encuentra con irregularidades y cualquier interaccion podria tener consecuencias con las autoridades" />
+                android:gravity="center|left"
+                android:text="Se ha encontrado en la relación de las personas físicas y morales que se ubican en el supuesto del artículo 69-B del Código Fiscal de la Federación" />
 
             <TextView
                 android:id="@+id/tvConsultam"
@@ -105,7 +105,7 @@
                 android:id="@+id/imageView3"
                 android:layout_width="match_parent"
                 android:layout_height="69dp"
-                app:srcCompat="@drawable/pie" />
+                app:srcCompat="@drawable/ave" />
 
             <LinearLayout
                 android:layout_width="match_parent"
