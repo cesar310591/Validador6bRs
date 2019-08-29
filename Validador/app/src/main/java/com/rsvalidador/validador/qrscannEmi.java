@@ -28,16 +28,22 @@ public class qrscannEmi extends AppCompatActivity implements ZXingScannerView.Re
         String RFCE = "";
         String uuid = "", rfc_e = "", rfc_r = "", total = "" ,palabratam3;
 
+
+
+
 // saca el rfc que se busca en el listado
         for (int x=0;x<cadena.length();x++){
-            if(cadena.charAt(x) == '&'){
+
+         //saca el rfc RR
+            if(cadena.charAt(x) == 'r'){
                 if(cadena.charAt(x+1) == 'r'){
-                    if(cadena.charAt(x+2) == 'r'){
-                        RFCE = cadena.substring(x+4);
+                    if(cadena.charAt(x+2) == '='){
+                        RFCE = cadena.substring(x+3);
 
                         for (int y=0;y<RFCE.length();y++){
                             if(RFCE.charAt(y) == '&'){
                                 RFCE = RFCE.substring(0, y);
+                                rfc_r =  RFCE;
                             }
                         }
 
@@ -47,23 +53,90 @@ public class qrscannEmi extends AppCompatActivity implements ZXingScannerView.Re
                 }
 
             }
+
+// sacamos el uuid
+
+            if(cadena.charAt(x) == 'i'){
+                if(cadena.charAt(x+1) == 'd'){
+                    if(cadena.charAt(x+2) == '='){
+                        uuid = cadena.substring(x+3);
+
+                        for (int y=0;y<uuid.length();y++){
+                            if(uuid.charAt(y) == '&'){
+                                uuid = uuid.substring(0, y);
+                            }
+                        }
+
+                    }
+
+
+                }
+
+            }
+// sacamos el rfc e
+
+            if(cadena.charAt(x) == 'r'){
+                if(cadena.charAt(x+1) == 'e'){
+                    if(cadena.charAt(x+2) == '='){
+                        rfc_e = cadena.substring(x+3);
+
+                        for (int y=0;y<rfc_e.length();y++){
+                            if(rfc_e.charAt(y) == '&'){
+                                rfc_e = rfc_e.substring(0, y);
+                            }
+                        }
+
+                    }
+
+
+                }
+
+            }
+
+            // sacamos el total
+
+            if(cadena.charAt(x) == 't'){
+                if(cadena.charAt(x+1) == 't'){
+                    if(cadena.charAt(x+2) == '='){
+                        total = cadena.substring(x+3);
+
+                        for (int y=0;y<total.length();y++){
+                            if(total.charAt(y) == '&'){
+                                total = total.substring(0, y);
+                            }
+                        }
+
+                    }
+
+
+                }
+
+            }
+
+
         }
+
+
 
 //sacamos los demas datos para validar la factura
 
-
+/*
 
         String[] palabras = cadena.split("&");
 
         for (String palabra : palabras)
         {
-           //vemos que cadena es y dependiendo de que sea lo guardamos en la variable correspondiente
+
+
+            //vemos que cadena es y dependiendo de que sea lo guardamos en la variable correspondiente
+
             palabratam3 = palabra.substring(0,2);
 
             //los casos de las cadenas
            if (palabratam3.equals("id")){
 
                uuid = palabra.substring(3, palabra.length());
+
 
            }
 
@@ -84,10 +157,14 @@ public class qrscannEmi extends AppCompatActivity implements ZXingScannerView.Re
                 total = palabra.substring(3, palabra.length());
 
             }
+              }
+
+*/
 
 
 
-        }
+
+
 
         MainActivity.RFC.setText(RFCE);
         MainActivity.rfc_em.setText(rfc_e);
