@@ -9,9 +9,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.validador.R;
 import com.rsvalidador.ApiCLass.MyApiAdapter;
 import com.rsvalidador.Ob.pdfResponse;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,7 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RFCMalo extends AppCompatActivity {
-TextView rfcet, consulto, mal;
+TextView rfcet, consulto,consulto2, mal;
 Button regresam,  pdf;
     String rfc, consul, nombre, situacion, tex;
     private  Templatepdf templatepdf;
@@ -30,6 +35,7 @@ Button regresam,  pdf;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rfcmalo);
         consulto = findViewById(R.id.tvConsultam);
+        consulto2 = findViewById(R.id.tvConsultam2);
         regresam = findViewById(R.id.btnRegresaM);
         rfcet = findViewById(R.id.etMalo);
         mal = findViewById(R.id.tvMalo);
@@ -41,6 +47,10 @@ Button regresam,  pdf;
         situacion = getIntent().getStringExtra("situacion");
         tex = "Se ha encontrado en la relación de las personas físicas y morales que se ubican en el supuesto del artículo 69-B del Código Fiscal de la Federación con el nombre de la empresa: " + nombre + " Y la situacion: " + situacion +".";
         consul = "Esta validación fue realizada por: " + getIntent().getStringExtra("consu");
+        //sacamos la fecha de la actualizacion de la lista
+
+        buscaactualizacion();
+
 
         rfcet.setText(rfc);
         consulto.setText(consul );
@@ -111,6 +121,44 @@ Button regresam,  pdf;
 
     }
 
+    private void buscaactualizacion() {
+        String fecha = "";
+
+        com.android.volley.Response.Listener<String>  response =new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+
+                    JSONObject jsonResponse = new JSONObject(response);
+                    String success = jsonResponse.getString("success");
+
+                    if(success.equals("true")){
+
+                        String fecha = jsonResponse.getString("actualizacion");
+
+                        consulto2.setText("Fecha de actualizacion: " + fecha);
+
+                    }else{
+
+
+                    }
+                }
+
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
+        };
+
+        wsverificaactualizacion wsverificaactualizacion = new wsverificaactualizacion( response);
+        RequestQueue queue = Volley.newRequestQueue(RFCMalo.this);
+        queue.add(wsverificaactualizacion);
+
+
+    }
 
 
 

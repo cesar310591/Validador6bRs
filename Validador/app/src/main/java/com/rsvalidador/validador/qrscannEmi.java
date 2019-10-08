@@ -30,6 +30,11 @@ public class qrscannEmi extends AppCompatActivity implements ZXingScannerView.Re
 
 
 
+        Toast toast1 =
+                Toast.makeText(getApplicationContext(),
+                        cadena, Toast.LENGTH_SHORT);
+
+        toast1.show();
 
 // saca el rfc que se busca en el listado
         for (int x=0;x<cadena.length();x++){

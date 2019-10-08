@@ -3,6 +3,7 @@ package com.rsvalidador.validador;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.zxing.Result;
 
@@ -25,6 +26,9 @@ public class QRScann extends AppCompatActivity implements ZXingScannerView.Resul
 String RFCE = "";
         String RFCR;
         String uuid = "", rfc_e = "", rfc_r = "", total = "" ,palabratam3;
+
+
+
         for (int x=0;x<cadena.length();x++){
            if(cadena.charAt(x) == 'r'){
                if(cadena.charAt(x+1) == 'e'){

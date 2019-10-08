@@ -69,13 +69,13 @@
             <ImageView
                 android:id="@+id/imageView11"
                 android:layout_width="match_parent"
-                android:layout_height="59dp"
-                app:srcCompat="@android:color/transparent"/>
+                android:layout_height="35dp"
+                app:srcCompat="@android:color/transparent" />
 
             <TextView
                 android:id="@+id/tvMalo"
                 android:layout_width="wrap_content"
-                android:layout_height="67dp"
+                android:layout_height="83dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
@@ -83,12 +83,24 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center|left"
-                android:text="No se ha encontrado en la relación de las personas físicas y morales que se ubican en el supuesto del artículo 69-B del Código Fiscal de la Federación actualizada al 11 de junio de 2019." />
+                android:text="No se ha encontrado en la relación de las personas físicas y morales que se ubican en el supuesto del artículo 69-B del Código Fiscal de la Federación" />
 
             <TextView
                 android:id="@+id/tvConsulta"
                 android:layout_width="378dp"
                 android:layout_height="45dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/tvConsulta2"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
